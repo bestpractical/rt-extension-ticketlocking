@@ -7,7 +7,7 @@ $ARGSref => undef
 
 <%INIT>
 #Split form has been submitted
-if($Ticket && ($ARGS{'CreateIncident'} || $ARGS {'CreateWithInvestigation'})) {
+if($Ticket && ($$ARGSref{'CreateIncident'} || $$ARGSref{'CreateWithInvestigation'})) {
     $$ARGSref{'Id'} = $$ARGSref{'Ticket'};
     my ($d) = $Ticket->Unlock();
     $$ARGSref{'Duration'} = $d unless $$ARGSref{'Duration'};
