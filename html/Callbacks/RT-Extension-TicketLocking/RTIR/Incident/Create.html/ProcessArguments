@@ -1,0 +1,24 @@
+<%ARGS>
+$Ticket => undef
+$Child => undef
+$ARGSref => undef
+</%ARGS>
+
+
+<%INIT>
+#Split form has been submitted
+if($Ticket && ($ARGS{'CreateIncident'} || $ARGS {'CreateWithInvestigation'})) {
+    $$ARGSref{'Id'} = $$ARGSref{'Ticket'};
+    my ($d) = $Ticket->Unlock();
+    $$ARGSref{'Duration'} = $d unless $$ARGSref{'Duration'};
+    return;
+}
+if($Child) {
+    # We don't want to bother even trying to lock if the form has been submitted
+    # (it will have been locked upon first rendering of the creation page)
+    unless($$ARGSref{'CreateIncident'} || $$ARGSref{'CreateWithInvestigation'}) {
+        $Child->Lock();
+    }
+    $$ARGSref{'Id'} = $$ARGSref{'Child'};
+}
+</%INIT>
