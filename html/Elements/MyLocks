@@ -48,10 +48,7 @@
 
     <&|/Widgets/TitleBox, title => loc("Tickets locked by you") &>
 % if(@locks) {
-    <form action="">
-    <input type='hidden' name='UnlockAll' value='1' />
-    <input type='submit' value='Unlock All' />
-    </form>
+    <a href="index.html?UnlockAll=1">Unlock All</a>
     <table border="0" cellspacing="0" cellpadding="1" width="100%">
 
 <%PERL>    
