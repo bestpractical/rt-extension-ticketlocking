@@ -46,9 +46,12 @@
 %# 
 %# END BPS TAGGED BLOCK }}}
 
+    <&|/Widgets/TitleBox, title => loc("Tickets locked by you") &>
 % if(@locks) {
-    <&|'/Widgets/TitleBox', title => loc("Tickets locked by you") &>
-    <a href="index.html?UnlockAll=1">Unlock all</a>
+    <form action="">
+    <input type='hidden' name='UnlockAll' value='1' />
+    <input type='submit' value='Unlock All' />
+    </form>
     <table border="0" cellspacing="0" cellpadding="1" width="100%">
 
 <%PERL>    
@@ -82,17 +85,13 @@
     }
 </%PERL>
 </table>
-</&>
 %}
+</&>
 
 <%INIT>
-print "ARGS: ";
-foreach(keys %ARGS) {
-    print "$_ => " . $ARGS{$_} . ", ";
-}
-if($ARGS{'UnlockAll'}) {
+
+if($m->request_args->{'UnlockAll'}) {
     $session{'CurrentUser'}->RemoveLocks;
-    return;
 }
 
 my @locks = $session{'CurrentUser'}->GetLocks;
