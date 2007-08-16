@@ -1,0 +1,17 @@
+html/Elements/MyLocks
+html/Elements/ShowLock
+html/Callbacks/Locking/Ticket/Display.html/ProcessLockArgument
+html/Callbacks/Locking/Ticket/Display.html/ShowLock
+inc/Module/Install.pm
+inc/Module/Install/Base.pm
+inc/Module/Install/Can.pm
+inc/Module/Install/Fetch.pm
+inc/Module/Install/Makefile.pm
+inc/Module/Install/Metadata.pm
+inc/Module/Install/RTx.pm
+inc/Module/Install/Win32.pm
+inc/Module/Install/WriteAll.pm
+lib/RT/Extension/TicketLocking.pm
+Makefile.PL
+MANIFEST
+README

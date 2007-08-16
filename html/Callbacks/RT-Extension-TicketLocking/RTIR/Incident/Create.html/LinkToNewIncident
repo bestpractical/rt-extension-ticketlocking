@@ -1,0 +1,13 @@
+<%ARGS>
+$Child
+$ARGSref
+</%ARGS>
+
+<%INIT>
+# We don't want to bother even trying to lock if the form has been submitted
+# (it will have been locked upon first rendering of the creation page)
+unless($$ARGSref{'CreateIncident'} || $$ARGSref{'CreateWithInvestigation'}) {
+    $Child->Lock();
+}
+$$ARGSref{'Id'} = $$ARGSref{'Child'};
+</%INIT>
