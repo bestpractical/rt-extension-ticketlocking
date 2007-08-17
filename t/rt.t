@@ -77,9 +77,5 @@ diag("Submitted Comment form") if $ENV{'TEST_VERBOSE'};
 $agent->content_like(qr{<div class="locked-by-you">\s*You had this ticket locked for \d+ \w+\. It is now unlocked\.}ims, "Ticket #$id Auto lock is removed");
 
 
-open OF, "> /home/toth/test_html/result_content.html" or die;
-print OF $agent->content;
-
-
 #removes all user's locks
 $agent->follow_link_ok({text => 'Logout', n => '1'}, "Logging out rtir_test_user");
