@@ -6,6 +6,7 @@ To install this module, run the following commands:
 
     perl Makefile.PL
     make
+    make test
     make install
 
 
@@ -13,7 +14,14 @@ To use this module, you must add the line
 
     use RT::Extension::TicketLocking;
 
-to the bottom of your RT_SiteConfig.pm file.
+to the bottom of your RT_SiteConfig.pm file. You must also define a lock expiry (the longest time
+a lock can remain without being automatically removed, by adding a line like the following to your
+RT_SiteConfig.pm file:
+
+    Set($LockExpiry, 300);
+    
+Expiration time is measured in seconds. If you don't wish to have your locks automatically expire,
+simply set $LockExpiry to a false value.
 
 
 If you want the MyLocks portlet to be available from the RT at a Glance page, you will need to 
