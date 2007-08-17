@@ -10,7 +10,7 @@ unless($Duration) {
     my @msg = grep(qr{You have unlocked this ticket\. It was locked for (\d+) seconds\.}i, @$Actions); 
     my $msg = pop @msg;
     $msg =~ /(You have unlocked this ticket\.) It was locked for (\d+) seconds\./i;
-    $ARGS{'Duration'} = $2 if $2;
+    $ARGS{'Duration'} = $2 if $2 && $2 !~ /\./;
 }
 $m->comp('/Elements/ShowLock', %ARGS);
 return;
