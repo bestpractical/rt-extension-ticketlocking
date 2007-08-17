@@ -10,7 +10,7 @@ RT Locking
 
 - Each type is associated with a priority. Current priorities are as follows, from highest priority to lowest:
     - Hard
-    - Take
+    - Take (when applicable)
     - Auto
 
 - A lock can be initiated manually by clicking the "Lock" link on one of the pages for the ticket (hard lock)
@@ -51,7 +51,7 @@ RT Locking
     a) The user is done editing/replying/etc. (for auto locks, if there is no hard lock on the ticket)
     b) The user clicks the Unlock link
     c) The user logs out
-    d) A configurable expiry period has elapsed
+    d) A configurable expiry period has elapsed (if the $LockExpiry config variable has been set to a true value)
 
 - When a user clicks the "Take" link for an RTIR Incident ticket, a Take lock is added. This lock will only be removed
   when the Incident is linked to a new or existing Investigation.
@@ -73,10 +73,6 @@ RT Locking
   merged-to ticket is locked by a different user, that user will retain the lock. Basically, the merged-to ticket will
   retain its lock if it is higher priority than the lock on the ticket being merged from.
 
-
-
------------
-Optional frills
------------
-
-Lock display portlet for homepage (display all of your locks)
+- When the expiration time has passed, the next time a user looks at the ticket (i.e., RT::Ticket::Locked() is called on it from
+  a Display page or the like, or when the MyLocks portlet is rendered). The entry will not automatically be removed from the database
+  (we'd need to set up a cron job for that), but this shouldn't matter since the lock will be removed when next observed.

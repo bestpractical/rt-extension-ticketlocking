@@ -286,7 +286,7 @@ sub create_ticket {
     my $cfs = shift || {};
     
     $agent->get_ok("${RT::WebPath}/Ticket/Create.html?Queue=$queue", "Went to Create page in queue $queue");
-    diag("We are at " . $agent->uri);
+
     #Enable test scripts to pass in the name of the owner rather than the ID
     if ($$fields{Owner} && $$fields{Owner} !~ /^\d+$/)
     {
