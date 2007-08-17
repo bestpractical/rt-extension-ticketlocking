@@ -46,7 +46,7 @@
 </div>
 %}
 <%INIT>
-
+grep {$_ =~ s/(You have unlocked this ticket\.) It was locked for \d+ seconds\./$1/i} @{$ARGS{'Actions'}} if $ARGS{'Actions'};
 if ( $Id ) {
     $Ticket = LoadTicket($Id);
 }

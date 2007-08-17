@@ -126,7 +126,7 @@ sub Unlock {
     return (undef, "There is a lock with a higher priority on this ticket.") if $priority < $LockPriority;
     my $duration = time() - $lock->Content->{'Timestamp'};
     $ticket->DeleteAttribute('RT_Lock');
-    return ($duration, "You have unlocked this ticket.");
+    return ($duration, "You have unlocked this ticket. It was locked for $duration seconds.");
 }
 
 
