@@ -173,3 +173,5 @@ sub RemoveLocks {
         $lock->Delete();
     }
 }
+
+1;
