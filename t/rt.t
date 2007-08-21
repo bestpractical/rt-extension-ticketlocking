@@ -2,27 +2,38 @@
 
 use strict;
 use warnings;
-
-
-use lib qw(/opt/rt3/local/lib /opt/rt3/lib);
-
 use Test::More qw/no_plan/;
 
 use HTTP::Cookies;
 
 require "t/test_suite.pl";
 
+my $queue = RT::Test->load_or_create_queue( Name => 'General' );
+ok $queue && $queue->id, 'loaded or created the queue';
+
+my $test_user = rtir_user();
+ok $test_user && $test_user->id, 'loaded or created user';
+
+RT::Test->set_rights(
+    Principal => $test_user,
+    Right     => [qw(SeeQueue CreateTicket OwnTicket ShowTicket )],
+);
+
+use_ok('RT::Extension::TicketLocking');
+
 my $agent = default_agent();
 
 my $root = new RT::Test::Web;
 $root->cookie_jar( HTTP::Cookies->new );
-$root->login('root', 'password');
+ok $root->login('root', 'password'), 'logged in';
 
 my $SUBJECT = "foo " . rand;
 
 my $id = create_ticket($agent, 'General', {Subject => $SUBJECT});
+ok $id, 'created a ticket';
 my $ticket = RT::Ticket->new(RT::SystemUser());
 $ticket->Load($id);
+ok $ticket->id, 'loaded ticket';
 
 $agent->follow_link_ok({text => 'Lock', n => '1'}, "Followed Lock link for Ticket #$id");
 $agent->content_like(qr{<div class="locked-by-you">\s*You have locked this ticket\.}ims, "Added a hard lock on Ticket $id");
