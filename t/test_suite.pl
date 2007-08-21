@@ -26,8 +26,9 @@ use RT::Test::Web;
 sub default_agent {
     my $agent = new RT::Test::Web;
     $agent->cookie_jar( HTTP::Cookies->new );
+    my $u = rtir_user();
     $agent->login($RTIR_TEST_USER, $RTIR_TEST_PASS);
-    go_home($agent);
+    $agent->get_ok("/index.html", "loaded home page");
     return $agent;
 }
 
@@ -40,17 +41,11 @@ sub set_custom_field {
     return 1;
 }
 
-sub go_home {
-    my $agent = shift;
-    my $weburl = RT->Config->Get('WebURL');
-    $agent->get_ok("$weburl/RTIR/index.html", "Loaded home page");
-}
-
 sub display_ticket {
     my $agent = shift;
     my $id = shift;
 
-    $agent->get_ok(RT->Config->Get('WebURL') . "/RTIR/Display.html?id=$id", "Loaded Display page for Ticket #$id");
+    $agent->get_ok("/RTIR/Display.html?id=$id", "Loaded Display page for Ticket #$id");
 }
 
 sub ticket_state_is {
@@ -112,7 +107,7 @@ sub goto_create_rtir_ticket {
         'Incidents'        => 'Incident'
     );
 
-    go_home($agent);
+    $agent->get_ok("/RTIR/index.html", "loaded home page");
 
     $agent->follow_link_ok({text => $queue, n => "1"}, "Followed '$queue' link");
     $agent->follow_link_ok({text => "New ". $type{ $queue }, n => "1"}, "Followed 'New $type{$queue}' link");
@@ -180,7 +175,10 @@ sub get_ticket_id {
         $id = $1;
     }
     elsif ($content =~ /.*No permission to view newly created ticket #(\d+).*/g) {
-        diag("\nNo permissions to view the ticket.\n") if($ENV{'TEST_VERBOSE'});
+        diag "No permissions to view the ticket" if $ENV{'TEST_VERBOSE'};
+    }
+    else {
+        diag "Couldn't find ticket id in:\n$content" if $ENV{'TEST_VERBOSE'};
     }
     return $id;
 }
@@ -235,7 +233,8 @@ sub create_incident_and_investigation {
     my $cfs = shift || {};
     my $ir_id = shift;
 
-    $ir_id ? display_ticket($agent, $ir_id) : go_home($agent);
+    $ir_id ? display_ticket($agent, $ir_id)
+        : $agent->get_ok("/index.html", "loaded home page");
 
     if($ir_id) {
         # Select the "New" link from the Display page
@@ -279,13 +278,20 @@ sub create_incident_and_investigation {
 sub create_ticket {
     my $agent = shift;
     my $queue = shift || 'General';
-    
-    return create_rtir_ticket($agent, $queue, @_) if $queue eq 'Incidents' || $queue eq 'Blocks' || $queue eq 'Investigations' || $queue eq 'Incident Reports';
+
+    return create_rtir_ticket($agent, $queue, @_) 
+        if $queue eq 'Incidents'
+        || $queue eq 'Blocks'
+        || $queue eq 'Investigations'
+        || $queue eq 'Incident Reports';
     
     my $fields = shift || {};
     my $cfs = shift || {};
-    
-    $agent->get_ok("${RT::WebPath}/Ticket/Create.html?Queue=$queue", "Went to Create page in queue $queue");
+
+    $agent->get_ok(
+        "/Ticket/Create.html?Queue=$queue",
+        "Went to Create page in queue $queue",
+    );
 
     #Enable test scripts to pass in the name of the owner rather than the ID
     if ( $fields->{'Owner'} && $fields->{'Owner'} !~ /^\d+$/ ) {
@@ -297,7 +303,6 @@ sub create_ticket {
     }
     
     $agent->form_number(3);
-    $fields->{'Requestors'} ||= $RTIR_TEST_USER if $queue eq 'Investigations';
     while (my ($f, $v) = each %$fields) {
         $agent->field($f, $v);
     }
