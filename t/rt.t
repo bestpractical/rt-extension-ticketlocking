@@ -16,7 +16,7 @@ ok $test_user && $test_user->id, 'loaded or created user';
 
 RT::Test->set_rights(
     Principal => $test_user,
-    Right     => [qw(SeeQueue CreateTicket OwnTicket ShowTicket )],
+    Right     => [qw(SeeQueue CreateTicket OwnTicket ShowTicket ModifyTicket)],
 );
 
 use_ok('RT::Extension::TicketLocking');
@@ -38,7 +38,7 @@ ok $ticket->id, 'loaded ticket';
 $agent->follow_link_ok({text => 'Lock', n => '1'}, "Followed Lock link for Ticket #$id");
 $agent->content_like(qr{<div class="locked-by-you">\s*You have locked this ticket\.}ims, "Added a hard lock on Ticket $id");
 my $lock = $ticket->Locked();
-ok(($lock->Content->{'Type'} eq 'Hard'), "Lock is a Hard lock");
+ok( $lock && $lock->Content->{'Type'} eq 'Hard', "Lock is a Hard lock");
 sleep 5;    #Otherwise, we run the risk of getting "You have locked this ticket" (see /Elements/ShowLock)
 ###Testing that the lock stays###
 
@@ -78,10 +78,12 @@ $agent->content_like(qr{<div class="locked-by-you">\s*You had this ticket locked
 $agent->follow_link_ok({text => 'Comment', n => '1'}, "Followed Comment link for Ticket #$id");
 $agent->content_like(qr{<div class="locked-by-you">\s*You have locked this ticket\.}ims, "Ticket $id is locked");
 # Without this, the lock type doesn't seem to refresh, even on successive calls to Locked()
-$ticket->Load($id);
-$lock = $ticket->Locked();
-ok(($lock->Content->{'Type'} eq 'Auto'), "Lock is an Auto lock");
-diag("Lock is a " . $lock->Content->{'Type'} . " lock.");
+{
+    my $ticket = RT::Ticket->new(RT::SystemUser());
+    $ticket->Load($id);
+    my $lock = $ticket->Locked();
+    ok( $lock && $lock->Content->{'Type'} eq 'Auto', "Lock is an Auto lock");
+}
 $agent->form_number(3);
 $agent->click('SubmitTicket');
 diag("Submitted Comment form") if $ENV{'TEST_VERBOSE'};
