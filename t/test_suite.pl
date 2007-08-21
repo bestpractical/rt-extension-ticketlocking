@@ -288,11 +288,12 @@ sub create_ticket {
     $agent->get_ok("${RT::WebPath}/Ticket/Create.html?Queue=$queue", "Went to Create page in queue $queue");
 
     #Enable test scripts to pass in the name of the owner rather than the ID
-    if ($$fields{Owner} && $$fields{Owner} !~ /^\d+$/)
-    {
-        if($agent->content =~ qr{<option.+?value="(\d+)"\s*>$$fields{Owner}</option>}ims) {
-            $$fields{Owner} = $1;
-        }
+    if ( $fields->{'Owner'} && $fields->{'Owner'} !~ /^\d+$/ ) {
+        my $u = RT::User->new( $RT::SystemUser );
+        $u->Load( $fields->{'Owner'} );
+        die "Couldn't load user '". $fields->{'Owner'} ."'"
+            unless $u->id;
+        $fields->{'Owner'} = $u->id;
     }
     
     $agent->form_number(3);
