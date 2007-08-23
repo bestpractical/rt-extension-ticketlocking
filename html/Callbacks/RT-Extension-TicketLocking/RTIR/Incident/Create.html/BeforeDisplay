@@ -1,12 +1,12 @@
 <%ARGS>
 $Child
-$ARGSref
+$ARGSRef
 </%ARGS>
 
 
 <%INIT>
 return unless $Child;
-$$ARGSref{'Id'} = $Child->id;
+$$ARGSRef{'Id'} = $Child->id;
 my ($d) = $Child->Unlock();
-$$ARGSref{'Duration'} = $d unless $$ARGSref{'Duration'};
+$$ARGSRef{'Duration'} = $d unless $$ARGSRef{'Duration'};
 </%INIT>

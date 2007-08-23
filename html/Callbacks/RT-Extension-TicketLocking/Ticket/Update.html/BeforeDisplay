@@ -1,11 +1,11 @@
 <%ARGS>
 $Ticket
-$ARGSref => undef
+$ARGSRef => undef
 </%ARGS>
 
 <%INIT>
 if($Ticket) {
     my ($d) = $Ticket->Unlock();
-    $$ARGSref{'Duration'} = $d unless $$ARGSref{'Duration'};
+    $$ARGSRef{'Duration'} = $d unless $$ARGSRef{'Duration'};
 }
 </%INIT>
