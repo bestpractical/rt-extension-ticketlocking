@@ -3,21 +3,16 @@
 use strict;
 use warnings;
 
-
-use lib qw(/opt/rt3/local/lib /opt/rt3/lib);
-
 use Test::More;
-
-eval 'use RT::IR; 1' or plan skip_all => 'RTIR not installed';
-
-plan tests => 117;
-
-use HTTP::Cookies;
-
 require "t/test_suite.pl";
+eval 'use RT::IR; 1' or plan skip_all => 'RTIR not installed';
+plan tests => 128;
 
+use_ok('RT::Extension::TicketLocking');
+create_user();
 my $agent = default_agent();
 
+use HTTP::Cookies;
 my $root = new RT::Test::Web;
 $root->cookie_jar( HTTP::Cookies->new );
 $root->login('root', 'password');
@@ -28,7 +23,10 @@ my $SUBJECT = "foo " . rand;
 
 diag("Testing Incident locking")  if $ENV{'TEST_VERBOSE'};
 # Create an incident
-my $inc = create_incident($agent, {Subject => $SUBJECT, Content => "bla", Owner => 'Nobody in particular &#40;Nobody&#41;' });
+my $inc = create_incident($agent,
+    {Subject => $SUBJECT, Content => "bla",
+     Owner => 'Nobody in particular &#40;Nobody&#41;' }
+);
 
 
 my $inc_obj = RT::Ticket->new(RT::SystemUser());
@@ -53,13 +51,15 @@ ok(($lock->Content->{'Type'} eq 'Hard'), "Lock is a Hard lock");
 my $expire = RT->Config->Get('LockExpiry');
 
 SKIP: {
-    skip 'Not testing lock expiry--expiration feature turned off', 4 unless $expire;
+    skip 'Not testing lock expiry -- expiration feature turned off', 4 unless $expire;
+    skip 'Not testing lock expiry -- expiration time more than 30 sec.', 4 if $expire > 30;
+
+    diag "Sleep for $expire second(s) to make sure expiration works";
     sleep $expire;
 
     $agent->follow_link_ok({text => 'Display', n =>'1'}, "Going back to display page for Incident #$inc");
     $agent->content_unlike(qr{<div class="locked-by-you">}, "Incident #$inc not locked anymore (lock expired)");
     ok(!$inc_obj->Locked(), "Lock not in the database");
-
 
     $agent->follow_link_ok({text => 'Lock', n => '1'}, "Followed 'Lock' link again");
 }
@@ -337,6 +337,19 @@ $agent->form_number(3);
 $agent->field('Owner', $nobody);
 $agent->click('SaveChanges');
 $agent->content_like(qr{<li>Owner changed from \w+ to Nobody</li>}, "Owner changed to Nobody");
+
+
+# create an incident to have at least one
+{ 
+    my $id = create_incident(
+        $agent,
+        { Subject => $SUBJECT },
+#        { Constituency => $ir_obj->FirstCustomFieldValue('_RTIR_Constituency') },
+    );
+    ok $id, 'created an incident';
+}
+
+$agent->goto_ticket($report);
 $agent->follow_link_ok({text => 'Take', n => '1'}, "Followed Take link again");
 $agent->content_like(qr{<div class="locked-by-you">\s*You have locked this ticket\.}ims, "Got a lock from Taking");
 sleep 5;
@@ -345,6 +358,7 @@ $agent->content_like(qr{<div class="locked-by-you">\s*You have had this ticket l
 ###Pick a ticket to link to (we don't really care which)
 $agent->content =~ qr{<input type="radio" name="SelectedTicket" value="(\d+)"\s*/>}ims;
 my $inc_to_link_to = $1;
+ok $inc_to_link_to, 'found id of an incident to link to';
 $agent->form_number(3);
 $agent->field('SelectedTicket', $inc_to_link_to);
 $agent->click('LinkChild');
@@ -358,7 +372,7 @@ $agent->follow_link_ok({text => 'Lock', n => '1'}, "Hard locked to test multi-us
 
 diag("Testing IR locking from other user's point of view");
 
-go_home($root);
+$root->get_ok( '/RTIR/index.html', 'go home');
 display_ticket($root, $report);
 $root->content_like(qr{<div class="locked">}, "IR #$report is locked by another");
 $root->follow_link_ok({text => 'Break lock', n => '1'}, "Breaking lock on IR #$report");
