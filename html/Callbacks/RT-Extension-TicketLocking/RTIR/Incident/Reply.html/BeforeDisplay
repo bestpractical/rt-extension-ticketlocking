@@ -1,9 +1,9 @@
 <%ARGS>
 $Ticket
-$ARGSRef => undef
+$PassArguments => {}
 </%ARGS>
 
 <%INIT>
-my ($d) = $Ticket->Unlock();
-$$ARGSRef{'Duration'} = $d unless $$ARGSRef{'Duration'};
+my ($d) = $Ticket->Unlock;
+$PassArguments->{'Duration'} = $d unless $PassArguments->{'Duration'};
 </%INIT>
