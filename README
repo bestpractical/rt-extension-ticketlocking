@@ -6,56 +6,15 @@ To install this module, run the following commands:
 
     perl Makefile.PL
     make
-    make test
     make install
 
+DOCUMENTAION
 
-To use this module, you must add the line
+All documentation about this extension you can find in
+'lib/RT/Extension/TicketLocking.pm', use `perldoc` utility
+to read it.
 
-    use RT::Extension::TicketLocking;
-
-to the bottom of your RT_SiteConfig.pm file. You must also define a lock expiry (the longest time
-a lock can remain without being automatically removed, by adding a line like the following to your
-RT_SiteConfig.pm file:
-
-    Set($LockExpiry, 300);
-    
-Expiration time is measured in seconds. If you don't wish to have your locks automatically expire,
-simply set $LockExpiry to a false value.
-
-
-If you want the MyLocks portlet to be available from the RT at a Glance page, you will need to 
-enable it with a line like this in your RT_SiteConfig.pm file
-
-Set($HomepageComponents, [qw(QuickCreate Quicksearch MyAdminQueues MySupportQueues MyReminders
-                             RefreshHomepage MyLocks)]);
-
-This is the default portlet list with MyLocks added to the end. People can then choose to add 
-the portlet to their homepage in Preferences -> RT at a glance.
-
-
-If you are running RTIR, and want the portlet to be available from the RTIR home page, you will
-need to do something similar to set the RTIR_HomepageComponents array in your RTIR_Config.pm file,
-like this:
-
-Set(@RTIR_HomepageComponents, qw(
-    QuickCreate
-    Quicksearch
-    MyAdminQueues
-    MySupportQueues
-    MyReminders
-    /RTIR/Elements/NewReports
-    /RTIR/Elements/UserDueIncidents
-    /RTIR/Elements/NobodyDueIncidents
-    /RTIR/Elements/DueIncidents
-    /RTIR/Elements/QueueSummary
-    RefreshHomepage
-    MyLocks
-));
-
-This is the default RTIR portlet list with MyLocks added to the end. People can then choose to add 
-the portlet to their homepage in Preferences -> RTIR Home.
-
+    perldoc lib/RT/Extension/TicketLocking.pm
 
 COPYRIGHT AND LICENCE
 

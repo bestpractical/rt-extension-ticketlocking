@@ -162,31 +162,45 @@ will not be available.
 =head2 LockExpiry option
 
 In the config you can set LockExpiry option to a number of seconds,
+the longest time a lock can remain without being automatically removed,
 for example:
 
     Set( $LockExpiry, 5*60 ); # lock expires after five minutes
 
+If you don't wish to have your locks automatically expire, simply
+set $LockExpiry to a false (zero or undef) value.
+
 =head2 Allowing users to use 'MyLocks' portlet
 
-Thei extension comes with a portlet users can place on thier home
-page RT's or RTIR's, to allow them to add this portlet admin have
+The extension comes with a portlet users can place on thier home
+page RT's or RTIR's. Using this portlet user can easily jump to
+locked tickets, remove particular lock or all locks at once.
+
+If you want the MyLocks portlet to be available then you have
 to place it in the list of allowed components.
 
-Using this portlet user can easily jump to locked tickets, remove
-particular lock or all locks at once.
-
-For 'RT at Glance':
+For RT:
 
     Set($HomepageComponents, [qw(
         MyLocks 
         ... list of another portlets ...
     )]);
 
-For RTIR:
+People can then choose to add the portlet to their homepage
+in Preferences -> 'RT at a glance'.
+
+If you are running RTIR, and want the portlet to be available
+from the RTIR home page, you will need to do something similar
+to set the RTIR_HomepageComponents array in your config file,
+like this:
+
     Set(@RTIR_HomepageComponents, qw(
         MyLocks
         ... list of another portlets ...
     ));
+
+People can then choose to add the portlet to their homepage
+in Preferences -> 'RTIR Home'.
 
 =head1 IMPLEMENTATION DETAILS
 
