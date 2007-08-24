@@ -250,7 +250,7 @@ $agent->form_number(3);
 $agent->field("SelectedTicket", $ir_id2);
 $agent->submit();
 diag("Submitted Merge form") if $ENV{'TEST_VERBOSE'};
-$agent->content_like(qr{<div class="locked-by-you">\s*You have locked this ticket\.}ims, "Lock from $report moved to $ir_id2");
+$agent->content_like(qr{<div class="locked-by-you">}ims, "Lock from $report moved to $ir_id2");
 $report = $ir_id2;
 $agent->follow_link_ok({text => 'Unlock', n => '1'}, "Removing hard lock on IR $report");
 
