@@ -4,8 +4,3 @@
 ** add description of portlet 'Element/MyLocks',
    how to add to home page, how to setup config...
 
-* add check for RT version to Makefile.PL
-
-* use M::I::Substitute, in tests we need correct lib paths
-
-
