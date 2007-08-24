@@ -1,6 +1,0 @@
-* PODify docs/locking
-** move docs into .pm
-** split implementation details from user level docs
-** add description of portlet 'Element/MyLocks',
-   how to add to home page, how to setup config...
-

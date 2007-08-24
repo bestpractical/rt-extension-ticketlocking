@@ -57,6 +57,147 @@ our $VERSION = '0.01';
 
 RT::Extension::TicketLocking - Enables users to place advisory locks on tickets
 
+=head1 DESCRIPTION
+
+Locks can be of several different types. Current types are:
+
+=over 4
+
+=item hard (manual) lock
+
+A lock can be initiated manually by clicking the "Lock" link on one of the pages
+for the ticket.
+
+=item take lock
+
+This is only applicable within RTIR. See L</RTIR> section below.
+
+=item auto lock
+
+A lock is created whenever a user performs an action on a ticket that takes
+multiple steps if a hard lock is not already in place for that ticket.
+
+An auto lock is removed once the user is done with whatever he was doing
+on the page (e.g., when he clicks "Save Changes" on the Edit page).
+It is also removed if the Unlock link is clicked from a page that generated
+an auto lock.
+
+Auto-lock is set for the following actions in RT:
+
+    - Comment
+    - Reply
+    - Resolve
+
+RTIR's user may find list of actions below.
+
+=back
+
+Locks are advisory: if a ticket is locked by one user, other users
+will be given a notification (in red) that another user has locked
+the ticket, with the locking user's name and how long he has had
+it locked for, but they will still be allowed to edit and submit
+changes on the ticket.
+
+When a user locks a ticket (auto lock or hard lock), they are given
+a notification informing them of their lock and how long they have
+had the ticket locked (in some other color - currently green).
+
+=head2 Removing locks
+
+Locks will remain in place until:
+
+=over 4
+
+=item * The user is done editing/replying/etc. (for auto locks, if
+there is no hard lock on the ticket)
+
+=item * A lock can be removed manually by clicking the "Unlock" link on one
+of the pages for the ticket. This removes B<any> type of lock.
+
+=item * The user logs out
+
+=item * A configurable expiry period has elapsed (if the $LockExpiry
+config variable has been set to a true value)
+
+=back
+
+When a user unlocks a ticket (auto unlock or hard unlock),
+they are given a notification informing them that their
+lock has been removed, and how long they had the ticket
+locked for.
+
+=head2 Merging tickets
+
+When a locked ticket (hard or take lock) is merged into another ticket,
+the ticket being merged into will get the lock type of the ticket being
+merged from. This lock shift is conditional upon priority, as
+usual - if the merged from ticket has a lock of a lower priority than
+the merged-to ticket, the merged-to ticket will retain its lock.
+If the merged-to ticket is locked by a different user, that user will
+retain the lock. Basically, the merged-to ticket will retain its lock
+if it is higher priority than the lock on the ticket being merged from.
+
+=head2 RTIR
+
+Within RTIR auto locks are applied for the following actions:
+
+    - Edit
+    - Split
+    - Merge
+    - Advanced
+    - Reply
+    - Resolve
+    - Reject
+    - Comment
+    - Remove
+
+As well, there is special type of lock implemented in RTIR. When a
+user clicks the "Take" link for an RTIR Incident ticket, a Take lock
+is added. This lock will only be removed when the IR is linked to
+a new or existing Incident. If RTIR is not installed, this type
+will not be available.
+
+=head1 CONFIGURATION
+
+=head2 LockExpiry option
+
+In the config you can set LockExpiry option to a number of seconds,
+for example:
+
+    Set( $LockExpiry, 5*60 ); # lock expires after five minutes
+
+=head2 Allowing users to use 'MyLocks' portlet
+
+Thei extension comes with a portlet users can place on thier home
+page RT's or RTIR's, to allow them to add this portlet admin have
+to place it in the list of allowed components.
+
+Using this portlet user can easily jump to locked tickets, remove
+particular lock or all locks at once.
+
+For 'RT at Glance':
+
+    Set($HomepageComponents, [qw(
+        MyLocks 
+        ... list of another portlets ...
+    )]);
+
+For RTIR:
+    Set(@RTIR_HomepageComponents, qw(
+        MyLocks
+        ... list of another portlets ...
+    ));
+
+=head1 IMPLEMENTATION DETAILS
+
+Each type is associated with a priority. Current priorities are as follows,
+from highest priority to lowest:
+    - Hard
+    - Take (when applicable)
+    - Auto
+
+This allow us to store only one lock record with higher priority.
+
 =cut
 
 our @LockTypes = qw(Auto Hard);
