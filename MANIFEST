@@ -1,4 +1,5 @@
 html/Callbacks/RT-Extension-TicketLocking/autohandler/Default
+html/Callbacks/RT-Extension-TicketLocking/NoAuth/Logout.html/BeforeSessionDelete
 html/Callbacks/RT-Extension-TicketLocking/RTIR/Create.html/BeforeActionList
 html/Callbacks/RT-Extension-TicketLocking/RTIR/Create.html/BeforeDisplay
 html/Callbacks/RT-Extension-TicketLocking/RTIR/Display.html/BeforeActionList
