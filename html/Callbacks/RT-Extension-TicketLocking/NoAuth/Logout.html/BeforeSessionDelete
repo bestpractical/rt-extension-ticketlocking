@@ -1,3 +1,8 @@
 <%INIT>
-$session{'CurrentUser'}->RemoveLocks;
+local $@;
+eval {
+    require RT::Extension::TicketLocking;
+    $session{'CurrentUser'}->UserObj->RemoveLocks;
+};
+$RT::Logger->error( $@ ) if $@;
 </%INIT>
