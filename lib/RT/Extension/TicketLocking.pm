@@ -214,6 +214,7 @@ This allow us to store only one lock record with higher priority.
 
 =cut
 
+use RT::Ticket;
 package RT::Ticket;
 
 our @LockTypes = qw(Auto Hard);
@@ -293,9 +294,7 @@ sub BreakLock {
 }
 
 
-
-
-
+use RT::User;
 package RT::User;
 
 sub GetLocks {
