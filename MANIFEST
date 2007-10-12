@@ -1,4 +1,5 @@
 html/Callbacks/RT-Extension-TicketLocking/autohandler/Default
+html/Callbacks/RT-Extension-TicketLocking/Elements/Header/Head
 html/Callbacks/RT-Extension-TicketLocking/NoAuth/Logout.html/BeforeSessionDelete
 html/Callbacks/RT-Extension-TicketLocking/RTIR/Create.html/BeforeActionList
 html/Callbacks/RT-Extension-TicketLocking/RTIR/Create.html/BeforeDisplay
@@ -47,6 +48,7 @@ html/Callbacks/RT-Extension-TicketLocking/Ticket/Update.html/BeforeDisplay
 html/Callbacks/RT-Extension-TicketLocking/Ticket/Update.html/Initial
 html/Elements/MyLocks
 html/Elements/ShowLock
+html/NoAuth/css/ticket-locking.css
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm

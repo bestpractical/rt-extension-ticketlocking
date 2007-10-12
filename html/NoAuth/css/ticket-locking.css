@@ -1,0 +1,21 @@
+div.locked-by-you {
+    width: 80%;
+    align: center;
+    border: 2px solid green;
+    padding: 1em;
+    margin: 1em;
+}
+
+.locked {
+    background: #ffcccc;
+    width: 80%;
+    align: center;
+    border: 2px solid red;
+    padding: 1em;
+    margin: 1em;
+}
+
+% $m->abort;
+<%INIT>
+$r->content_type('text/css');
+</%INIT>
