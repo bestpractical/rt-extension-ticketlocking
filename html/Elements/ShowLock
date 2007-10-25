@@ -46,7 +46,9 @@
 </div>
 %}
 <%INIT>
-grep {$_ =~ s/(You have unlocked this ticket\.) It was locked for \d+ seconds\./$1/i} @{$ARGS{'Actions'}} if $ARGS{'Actions'};
+foreach ( grep defined, @{ $ARGS{'Actions'} || [] } ) {
+    s/(You have unlocked this ticket\.) It was locked for \d+ seconds\./$1/i;
+}
 if ( $Id ) {
     $Ticket = LoadTicket($Id);
 }
