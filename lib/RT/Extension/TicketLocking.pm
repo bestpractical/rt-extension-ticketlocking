@@ -217,7 +217,21 @@ This allow us to store only one lock record with higher priority.
 use RT::Ticket;
 package RT::Ticket;
 
-our @LockTypes = qw(Auto Hard);
+our @LockTypes = qw(Auto Take Hard);
+
+sub LockPriority {
+    my $self = shift;
+    my $type = shift;
+    
+    my $priority;
+    for( my $i = 0; $i < scalar @LockTypes; $i++) {
+        $priority = $i if lc( $LockTypes[ $i ] ) eq lc( $type );
+    }
+    $RT::Logger->error( "There is no type '$type' in the list of lock types")
+        unless defined $priority;
+
+    return $priority || 0;
+}
 
 sub Locked {
     my $ticket = shift;
@@ -241,14 +255,8 @@ sub Lock {
 
     if ( my $lock = $ticket->Locked() ) {
         return undef if $lock->Content->{'User'} != $ticket->CurrentUser->id;
-        my $LockType = $lock->Content->{'Type'};
-        my $priority;
-        my $LockPriority;
-        for(my $i = 0; $i < scalar @LockTypes; $i++) {
-            $priority = $i if (lc $LockTypes[$i]) eq (lc $type);
-            $LockPriority = $i if (lc $LockTypes[$i]) eq (lc $LockType);
-        }
-        return undef if $priority <= $LockPriority;
+        my $current_type = $lock->Content->{'Type'};
+        return undef if $ticket->LockPriority( $type ) <= $ticket->LockPriority( $current_type );
     }
     $ticket->Unlock($type);    #Remove any existing locks (because this one has greater priority)
     my $id = $ticket->id;
@@ -272,16 +280,13 @@ sub Unlock {
 
     my $lock = $ticket->RT::Ticket::Locked();
     return (undef, "This ticket was not locked.") unless $lock;
-    return (undef, "You cannot unlock a ticket locked by another user.") unless $lock->Content->{User} ==  $ticket->CurrentUser->id;
-    
-    my $LockType = $lock->Content->{'Type'};
-    my $priority;
-    my $LockPriority;
-    for(my $i = 0; $i < scalar @LockTypes; $i++) {
-        $priority = $i if (lc $LockTypes[$i]) eq (lc $type);
-        $LockPriority = $i if (lc $LockTypes[$i]) eq (lc $LockType);
-    }
-    return (undef, "There is a lock with a higher priority on this ticket.") if $priority < $LockPriority;
+    return (undef, "You cannot unlock a ticket locked by another user.")
+        unless $lock->Content->{User} == $ticket->CurrentUser->id;
+
+    my $current_type = $lock->Content->{'Type'};
+    return (undef, "There is a lock with a higher priority on this ticket.")
+        if $ticket->LockPriority( $type ) < $ticket->LockPriority( $current_type );
+
     my $duration = time() - $lock->Content->{'Timestamp'};
     $ticket->DeleteAttribute('RT_Lock');
     return ($duration, "You have unlocked this ticket. It was locked for $duration seconds.");
