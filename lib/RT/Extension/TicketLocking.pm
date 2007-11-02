@@ -66,7 +66,7 @@ Locks can be of several different types. Current types are:
 =item hard (manual) lock
 
 A lock can be initiated manually by clicking the "Lock" link on one of the pages
-for the ticket.
+for the ticket. However, hard locks are available only to users who can ModifyTicket.
 
 =item take lock
 
@@ -117,7 +117,7 @@ of the pages for the ticket. This removes B<any> type of lock.
 =item * The user logs out
 
 =item * A configurable expiry period has elapsed (if the $LockExpiry
-config variable has been set to a true value)
+config variable has been set to a value greater than zero)
 
 =back
 
