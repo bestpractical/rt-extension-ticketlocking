@@ -235,16 +235,16 @@ sub LockPriority {
 
 sub Locked {
     my $ticket = shift;
+
     my $lock = $ticket->FirstAttribute('RT_Lock');
-    if($lock) {
-        my $duration = time() - $lock->Content->{'Timestamp'};
-        my $expiry = RT->Config->Get('LockExpiry');
-        if($expiry) {
-            unless($duration < $expiry) {
-                $ticket->DeleteAttribute('RT_Lock');
-                undef $lock;
-            }
-        }
+    return $lock unless $lock;
+
+    return $lock unless my $expiry = RT->Config->Get('LockExpiry');
+
+    my $duration = time() - $lock->Content->{'Timestamp'};
+    unless ( $duration < $expiry ) {
+        $ticket->DeleteAttribute('RT_Lock');
+        undef $lock;
     }
     return $lock;
 }
