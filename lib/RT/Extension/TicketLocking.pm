@@ -218,6 +218,9 @@ use RT::Ticket;
 package RT::Ticket;
 
 our @LockTypes = qw(Auto Take Hard);
+our %CheckRightOnLock = (
+    Hard => 'ModifyTicket',
+);
 
 sub LockPriority {
     my $self = shift;
@@ -258,6 +261,11 @@ sub Lock {
         my $current_type = $lock->Content->{'Type'};
         return undef if $ticket->LockPriority( $type ) <= $ticket->LockPriority( $current_type );
     }
+
+    if ( my $right = $CheckRightOnLock{ $type } ) {
+        return undef unless $ticket->CurrentUserHasRight('ModifyTicket');
+    }
+
     $ticket->Unlock($type);    #Remove any existing locks (because this one has greater priority)
     my $id = $ticket->id;
     my $username = $ticket->CurrentUser->Name;
