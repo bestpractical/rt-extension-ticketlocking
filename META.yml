@@ -1,9 +1,10 @@
 --- 
 abstract: Enables users to place advisory locks on tickets
-author: Turner Hayes <thayes@bestpractical.com>
+author: 
+  - Turner Hayes <thayes@bestpractical.com>
 distribution_type: module
-generated_by: Module::Install version 0.67
-license: perl
+generated_by: Module::Install version 0.68
+license: GPL2
 meta-spec: 
   url: http://module-build.sourceforge.net/META-spec-v1.3.html
   version: 1.3
