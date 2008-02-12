@@ -16,4 +16,4 @@ no_index:
     - t
 requires: 
   Test::More: 0
-version: 0.07
+version: 0.08
