@@ -16,4 +16,5 @@ no_index:
     - t
 requires: 
   Test::More: 0
-version: 0.08
+  perl: 5.8.3
+version: 0.09

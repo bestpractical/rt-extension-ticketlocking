@@ -46,12 +46,13 @@
 # 
 # END BPS TAGGED BLOCK }}}
 
+use v5.8.3;
 use strict;
 use warnings;
 
 package RT::Extension::TicketLocking;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 =head1 NAME
 
@@ -344,3 +345,10 @@ sub RemoveLocks {
 }
 
 1;
+
+=head1 AUTHOR
+
+Turner Hayes E<lt>thayes@bestpractical.comE<gt>
+
+=cut
+
