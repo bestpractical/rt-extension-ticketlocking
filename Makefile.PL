@@ -3,9 +3,8 @@ use inc::Module::Install;
 RTx('RT-Extension-TicketLocking');
 license('GPL2');
 all_from('lib/RT/Extension/TicketLocking.pm');
-abstract_from('lib/RT/Extension/TicketLocking.pm');
 
-requires('Test::More');
+build_requires('Test::More');
 
 { # check RT version
     my @v = split /\./, "$RT::VERSION";
