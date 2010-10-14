@@ -39,10 +39,10 @@
 
 </div>
 % } else {
-%    return unless $u->Name;
+%    return unless $u_str;
 %     $TicketLabel = 'This ticket' if $TicketLabel eq 'this ticket';    
 <div class="locked">
-<&|/l, $TicketLabel, $u->Name, $ago &>[_1] has been locked by [_2] for [_3]</&>.
+<&|/l, $TicketLabel, $u_str, $ago &>[_1] has been locked by [_2] for [_3]</&>.
 </div>
 %}
 <%INIT>
@@ -71,6 +71,7 @@ my $ago = $date->DurationAsString($timePassed);
 
 my $u = RT::User->new($session{'CurrentUser'});
 $u->Load($Lock->Content->{'User'}) if $Lock;
+my $u_str = $m->scomp('/Elements/ShowUser', User => $u);
 
 </%INIT>
 <%ARGS>
