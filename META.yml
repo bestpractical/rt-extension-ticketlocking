@@ -3,22 +3,25 @@ abstract: 'Enables users to place advisory locks on tickets'
 author:
   - 'Turner Hayes <thayes@bestpractical.com>'
 build_requires:
+  ExtUtils::MakeMaker: 6.59
   Test::More: 0
+configure_requires:
+  ExtUtils::MakeMaker: 6.59
 distribution_type: module
-generated_by: 'Module::Install version 0.77'
-license: GPL2
+dynamic_config: 1
+generated_by: 'Module::Install version 1.06'
+license: gpl2
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: RT-Extension-TicketLocking
 no_index:
   directory:
-    - etc
     - html
-    - po
-    - var
     - inc
     - t
 requires:
   perl: 5.8.3
+resources:
+  license: http://opensource.org/licenses/gpl-2.0.php
 version: 0.10
