@@ -1,6 +1,7 @@
 Changes
 html/Callbacks/RT-Extension-TicketLocking/autohandler/Default
 html/Callbacks/RT-Extension-TicketLocking/Elements/Header/Head
+html/Callbacks/RT-Extension-TicketLocking/Elements/Tabs/Privileged
 html/Callbacks/RT-Extension-TicketLocking/NoAuth/Logout.html/BeforeSessionDelete
 html/Callbacks/RT-Extension-TicketLocking/RTIR/Create.html/BeforeActionList
 html/Callbacks/RT-Extension-TicketLocking/RTIR/Create.html/BeforeDisplay
