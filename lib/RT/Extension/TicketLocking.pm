@@ -52,7 +52,7 @@ use warnings;
 
 package RT::Extension::TicketLocking;
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 =head1 NAME
 
