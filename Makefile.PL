@@ -3,16 +3,11 @@ use inc::Module::Install;
 RTx('RT-Extension-TicketLocking');
 license('GPL2');
 all_from('lib/RT/Extension/TicketLocking.pm');
+readme_from;
 
 build_requires('Test::More');
 
-{ # check RT version
-    my @v = split /\./, "$RT::VERSION";
-    unless (($v[0]>=3 && $v[1]>=7) || $v[0]>3) {
-        die "Extension needs RT 3.7.0 at least, you have $RT::VERSION";
-    }
-}
-
+requires_rt('3.7.0');
 
 my ($lib_path) = $INC{'RT.pm'} =~ /^(.*)[\\\/]/;
 my $local_lib_path = "$RT::LocalPath/lib";

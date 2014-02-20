@@ -2,8 +2,8 @@
 # 
 # COPYRIGHT:
 #  
-# This software is Copyright (c) 1996-2007 Best Practical Solutions, LLC 
-#                                          <jesse@bestpractical.com>
+# This software is Copyright (c) 2007-2014 Best Practical Solutions, LLC 
+#                                          <sales@bestpractical.com>
 # 
 # (Except where explicitly superseded by other copyright notices)
 # 
@@ -158,6 +158,39 @@ is added. This lock will only be removed when the IR is linked to
 a new or existing Incident. If RTIR is not installed, this type
 will not be available.
 
+=head1 INSTALLATION
+
+=over
+
+=item C<perl Makefile.PL>
+
+=item C<make>
+
+=item C<make install>
+
+May need root permissions
+
+=item Edit your F</opt/rt4/etc/RT_SiteConfig.pm>
+
+If you are using RT 4.2 or greater, add this line:
+
+    Plugin('RT::Extension::TicketLocking');
+
+For RT 3.8 and 4.0, add this line:
+
+    Set(@Plugins, qw(RT::Extension::TicketLocking));
+
+or add C<RT::Extension::TicketLocking> to your existing C<@Plugins> line.
+
+=item Clear your mason cache
+
+    rm -rf /opt/rt4/var/mason_data/obj
+
+=item Restart your webserver
+
+=back
+
+
 =head1 CONFIGURATION
 
 =head2 LockExpiry option
@@ -169,7 +202,8 @@ for example:
     Set( $LockExpiry, 5*60 ); # lock expires after five minutes
 
 If you don't wish to have your locks automatically expire, simply
-set $LockExpiry to a false (zero or undef) value.
+set $LockExpiry to a false (zero or undef) value. This is the default if
+you do not provide a $LockExpiry.
 
 =head2 Allowing users to use 'MyLocks' portlet
 
@@ -203,17 +237,37 @@ like this:
 People can then choose to add the portlet to their homepage
 in Preferences -> 'RTIR Home'.
 
-=head1 IMPLEMENTATION DETAILS
+=head1 AUTHOR
 
-Each type is associated with a priority. Current priorities are as follows,
-from highest priority to lowest:
-    - Hard
-    - Take (when applicable)
-    - Auto
+    Turner Hayes    <thayes@bestpractical.com>
+    Ruslan Zakirov  <ruz@bestpractical.com>
+    Kevin Falcone   <falcone@bestpractical.com> 
 
-This allow us to store only one lock record with higher priority.
+=head1 BUGS
+
+All bugs should be reported via email to
+L<bug-rt-extension-ticketlocking@rt.cpan.org|mailto:bug-rt-extension-ticketlocking@rt.cpan.org>
+or via the web at
+L<rt.cpan.org|http://rt.cpan.org/Public/Dist/Display.html?Name=rt-extension-ticketlocking>.
+
+=head1 LICENSE AND COPYRIGHT
+
+This software is Copyright (c) 2007-2014 by Best Practical Solutions
+
+This is free software, licensed under:
+
+  The GNU General Public License, Version 2, June 1991
 
 =cut
+
+# IMPLEMENTATION DETAILS
+#  Each type is associated with a priority. Current priorities are as follows,
+#  from highest priority to lowest:
+#      - Hard
+#      - Take (when applicable)
+#      - Auto
+#  
+#  This allow us to store only one lock record with higher priority.
 
 use RT::Ticket;
 package RT::Ticket;
@@ -345,10 +399,3 @@ sub RemoveLocks {
 }
 
 1;
-
-=head1 AUTHOR
-
-Turner Hayes E<lt>thayes@bestpractical.comE<gt>
-
-=cut
-

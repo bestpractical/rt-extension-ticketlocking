@@ -1,7 +1,7 @@
 ---
 abstract: 'Enables users to place advisory locks on tickets'
 author:
-  - 'Turner Hayes <thayes@bestpractical.com>'
+  - 'Turner Hayes    <thayes@bestpractical.com>'
 build_requires:
   ExtUtils::MakeMaker: 6.59
   Test::More: 0
