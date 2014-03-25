@@ -21,8 +21,6 @@ RT::Test->set_rights(
     Right     => [qw(SeeQueue CreateTicket OwnTicket ShowTicket ModifyTicket)],
 );
 
-use_ok('RT::Extension::TicketLocking');
-
 my $agent = default_agent();
 
 my $SUBJECT = "foo " . rand;
