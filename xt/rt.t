@@ -2,11 +2,13 @@
 
 use strict;
 use warnings;
-use Test::More qw/no_plan/;
 
-use HTTP::Cookies;
+use RT::Test testing => 'RT::Extension::TicketLocking', tests => undef;
+require "xt/test_suite.pl";
 
-require "t/test_suite.pl";
+
+my ($baseurl, $default_agent) = RT::Test->started_ok;
+diag($baseurl);
 
 my $queue = RT::Test->load_or_create_queue( Name => 'General' );
 ok $queue && $queue->id, 'loaded or created the queue';
@@ -85,6 +87,8 @@ $agent->click('SubmitTicket');
 diag("Submitted Comment form") if $ENV{'TEST_VERBOSE'};
 $agent->content_like(qr{<div class="locked-by-you">\s*You had this ticket locked for \d+ \w+\. It is now unlocked\.}ims, "Ticket #$id Auto lock is removed");
 
-
 #removes all user's locks
 $agent->follow_link_ok({text => 'Logout', n => '1'}, "Logging out rtir_test_user");
+
+undef $default_agent;
+done_testing;
