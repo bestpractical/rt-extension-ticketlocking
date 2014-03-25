@@ -31,7 +31,7 @@ my $id = create_ticket($agent, 'General', {Subject => $SUBJECT});
 ok $id, 'created a ticket';
 my $ticket = RT::Ticket->new(RT::SystemUser());
 $ticket->Load($id);
-ok $ticket->id, 'loaded ticket';
+ok $ticket->id, 'loaded ticket '.$id;
 
 $agent->follow_link_ok({text => 'Lock', n => '1'}, "Followed Lock link for Ticket #$id");
 $agent->content_like(qr{<div class="locked-by-you">\s*You have locked this ticket\.}ims, "Added a hard lock on Ticket $id");
@@ -68,8 +68,9 @@ $agent->click('SubmitTicket');
 diag("Submitted Comment form") if $ENV{'TEST_VERBOSE'};
 $agent->content_like(qr{<div class="locked-by-you">\s*You have had this ticket locked for \d+ \w+\.\s*</div>}ims, "Ticket #$id still locked after submitting comment");
 
+
 $agent->follow_link_ok({text => 'Unlock', n => '1'}, "Followed Unlock link for Ticket #$id");
-$agent->content_like(qr{<div class="locked-by-you">\s*You had this ticket locked for \d+ \w+\. It is now unlocked\.}ims, "Ticket #$id is not locked");
+$agent->content_like(qr{You have unlocked this ticket. It was locked for \d+ \w+\.}ims, "Ticket #$id is not locked");
 
 ###Testing auto lock###
 
