@@ -8,20 +8,12 @@ use strict;
 use warnings;
 
 use HTTP::Cookies;
-use Test::More;
 
 ### after: use lib qw(@RT_LIB_PATH@);
 use lib qw(/opt/rt4/local/lib /opt/rt4/lib);
 
-use RT;
-RT::LoadConfig();
-RT::Init();
-
 my $RTIR_TEST_USER = "rtir_test_user";
 my $RTIR_TEST_PASS = "rtir_test_pass";
-
-require RT::Test;
-use RT::Test::Web;
 
 sub default_agent {
     my $agent = new RT::Test::Web;
@@ -288,10 +280,9 @@ sub create_ticket {
     my $fields = shift || {};
     my $cfs = shift || {};
 
-    $agent->get_ok(
-        "/Ticket/Create.html?Queue=$queue",
-        "Went to Create page in queue $queue",
-    );
+    my $q = RT::Test->load_or_create_queue(Name => $queue);
+
+    $agent->goto_create_ticket($q);
 
     #Enable test scripts to pass in the name of the owner rather than the ID
     if ( $fields->{'Owner'} && $fields->{'Owner'} !~ /^\d+$/ ) {
