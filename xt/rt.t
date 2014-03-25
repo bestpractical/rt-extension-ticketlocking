@@ -81,6 +81,7 @@ $agent->content_like(qr{<div class="locked-by-you">\s*You have locked this ticke
     $ticket->Load($id);
     my $lock = $ticket->Locked();
     ok( $lock && $lock->Content->{'Type'} eq 'Auto', "Lock is an Auto lock");
+    sleep 1; # submit too fast and Duration is 0
 }
 $agent->form_number(3);
 $agent->click('SubmitTicket');
