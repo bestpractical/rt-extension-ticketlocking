@@ -23,10 +23,6 @@ use_ok('RT::Extension::TicketLocking');
 
 my $agent = default_agent();
 
-my $root = new RT::Test::Web;
-$root->cookie_jar( HTTP::Cookies->new );
-ok $root->login('root', 'password'), 'logged in';
-
 my $SUBJECT = "foo " . rand;
 
 my $id = create_ticket($agent, 'General', {Subject => $SUBJECT});
