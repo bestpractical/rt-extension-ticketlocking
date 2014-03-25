@@ -16,7 +16,7 @@ unshift @INC, $local_lib_path, $lib_path;
 substitute( {
         RT_LIB_PATH => join( ' ', $local_lib_path, $lib_path ),
     },
-    't/test_suite.pl',
+    'xt/test_suite.pl',
 );
 
 
