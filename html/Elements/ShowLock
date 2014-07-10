@@ -42,7 +42,7 @@
 %    return unless $u_str;
 %     $TicketLabel = 'This ticket' if $TicketLabel eq 'this ticket';    
 <div class="locked">
-<&|/l, $TicketLabel, $u_str, $ago &>[_1] has been locked by [_2] for [_3]</&>.
+<&|/l_unsafe, $TicketLabel, $u_str, $ago &>[_1] has been locked by [_2] for [_3]</&>.
 </div>
 %}
 <%INIT>
