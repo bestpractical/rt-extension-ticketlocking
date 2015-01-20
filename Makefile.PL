@@ -1,13 +1,10 @@
 use inc::Module::Install;
 
 RTx('RT-Extension-TicketLocking');
-license('GPL2');
-all_from('lib/RT/Extension/TicketLocking.pm');
-readme_from;
 
 build_requires('Test::More');
 
-requires_rt('3.7.0');
+requires_rt('4.0.6');
 
 my ($lib_path) = $INC{'RT.pm'} =~ /^(.*)[\\\/]/;
 my $local_lib_path = "$RT::LocalPath/lib";

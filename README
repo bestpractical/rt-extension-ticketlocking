@@ -89,9 +89,9 @@ DESCRIPTION
     available.
 
 INSTALLATION
-    "perl Makefile.PL"
-    "make"
-    "make install"
+    perl Makefile.PL
+    make
+    make install
         May need root permissions
 
     Edit your /opt/rt4/etc/RT_SiteConfig.pm
@@ -99,12 +99,11 @@ INSTALLATION
 
             Plugin('RT::Extension::TicketLocking');
 
-        For RT 3.8 and 4.0, add this line:
+        For RT 4.0, add this line:
 
             Set(@Plugins, qw(RT::Extension::TicketLocking));
 
-        or add "RT::Extension::TicketLocking" to your existing @Plugins
-        line.
+        or add RT::Extension::TicketLocking to your existing @Plugins line.
 
     Clear your mason cache
             rm -rf /opt/rt4/var/mason_data/obj
@@ -154,20 +153,19 @@ CONFIGURATION
     Preferences -> 'RTIR Home'.
 
 AUTHOR
-        Turner Hayes    <thayes@bestpractical.com>
-        Ruslan Zakirov  <ruz@bestpractical.com>
-        Kevin Falcone   <falcone@bestpractical.com>
+    Best Practical Solutions, LLC <modules@bestpractical.com>
 
 BUGS
     All bugs should be reported via email to
-    bug-rt-extension-ticketlocking@rt.cpan.org
-    <mailto:bug-rt-extension-ticketlocking@rt.cpan.org> or via the web at
-    rt.cpan.org
-    <http://rt.cpan.org/Public/Dist/Display.html?Name=rt-extension-ticketloc
-    king>.
 
-LICENSE AND COPYRIGHT
-    This software is Copyright (c) 2007-2014 by Best Practical Solutions
+        L<bug-RT-Extension-TicketLocking@rt.cpan.org|mailto:bug-RT-Extension-TicketLocking@rt.cpan.org>
+
+    or via the web at
+
+        L<rt.cpan.org|http://rt.cpan.org/Public/Dist/Display.html?Name=RT-Extension-TicketLocking>.
+
+COPYRIGHT
+    This extension is Copyright (C) 2007-2014 Best Practical Solutions, LLC.
 
     This is free software, licensed under:
 

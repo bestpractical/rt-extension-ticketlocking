@@ -1,18 +1,14 @@
 0.12 2013-10-10
-
-    * port menu items over RT 4.0+
+ - port menu items over RT 4.0+
 
 0.11 2013-10-08
-
-    * update installer
-    * use ShowUser component in the message
-    * styling clean ups for MyLocks
+ - update installer
+ - use ShowUser component in the message
+ - styling clean ups for MyLocks
 
 0.10 2008-09-15
+ - update installer
 
-    * update installer
-
-0.09 Wed Mar 05 13:30:00 UTC 2007
-
-    * added this file
-    * updated some metadata
+0.09 2007-03-05
+ - added this file
+ - updated some metadata
