@@ -38,11 +38,13 @@
 % }
 
 </div>
-% } else {
-%    return unless $u_str;
-%     $TicketLabel = 'This ticket' if $TicketLabel eq 'this ticket';    
+% } elsif ($u->id) {
+%    my $u_str = $m->scomp('/Elements/ShowUser', User => $u);
+%    $TicketLabel = 'This ticket' if $TicketLabel eq 'this ticket';
+%    $TicketLabel = $m->interp->apply_escapes($TicketLabel, 'h');
+%    $ago         = $m->interp->apply_escapes($ago, 'h');
 <div class="locked">
-<&|/l, $TicketLabel, $u_str, $ago &>[_1] has been locked by [_2] for [_3]</&>.
+<&|/l_unsafe, $TicketLabel, $u_str, $ago &>[_1] has been locked by [_2] for [_3]</&>.
 </div>
 %}
 <%INIT>
@@ -71,7 +73,6 @@ my $ago = $date->DurationAsString($timePassed);
 
 my $u = RT::User->new($session{'CurrentUser'});
 $u->Load($Lock->Content->{'User'}) if $Lock;
-my $u_str = $m->scomp('/Elements/ShowUser', User => $u);
 
 </%INIT>
 <%ARGS>
