@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Test::More;
-require "t/test_suite.pl";
+require "xt/test_suite.pl";
 eval 'use RT::IR; 1' or plan skip_all => 'RTIR not installed';
 plan tests => 128;
 

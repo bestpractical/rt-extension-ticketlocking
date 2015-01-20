@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Load this in test scripts with: require "t/test_suite.pl";
+# Load this in test scripts with: require "xt/test_suite.pl";
 # *AFTER* loading in Test::More.
 
 

@@ -3,8 +3,9 @@
 use strict;
 use warnings;
 
+use Test::More;
+BEGIN { require "xt/test_suite.pl" };
 use RT::Test testing => 'RT::Extension::TicketLocking', tests => undef;
-require "xt/test_suite.pl";
 
 
 my ($baseurl, $default_agent) = RT::Test->started_ok;
