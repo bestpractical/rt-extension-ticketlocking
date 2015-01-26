@@ -6,8 +6,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. ($TicketLabel, $u_str, $ago)
 #: html/Elements/ShowLock:47
+#. ($TicketLabel, $u_str, $ago)
 msgid "%1 has been locked by %2 for %3"
 msgstr "%1 a été verrouillé par %2 depuis %3"
 
@@ -39,8 +39,8 @@ msgstr "Ce ticket"
 msgid "This ticket was not locked."
 msgstr "Ce ticket n'a pas été verrouillé"
 
-#. ($Id)
 #: html/Elements/ShowLock:26
+#. ($Id)
 msgid "Ticket #%1"
 msgstr "Ticket n°%1"
 
@@ -64,8 +64,8 @@ msgstr "Tout déverrouiller"
 msgid "You cannot unlock a ticket locked by another user."
 msgstr "Vous ne pouvez pas déverrouillé un tiket verrouillé par quelqu'un d'autre."
 
-#. ($TicketLabel, $ago)
 #: html/Elements/ShowLock:31
+#. ($TicketLabel, $ago)
 msgid "You had %1 locked for %2. It is now unlocked"
 msgstr "Vous aviez %1 verrouillé depuis %2. Il est maintenant déverrouillé."
 
@@ -73,18 +73,18 @@ msgstr "Vous aviez %1 verrouillé depuis %2. Il est maintenant déverrouillé."
 msgid "You have broken the lock on this ticket"
 msgstr "Vous avez supprimer le verrou sur ce ticket"
 
-#. ($TicketLabel, $ago)
 #: html/Elements/ShowLock:37
+#. ($TicketLabel, $ago)
 msgid "You have had %1 locked for %2"
 msgstr "Vous avez verrouillé %1 depuis %2"
 
-#. ($TicketLabel)
 #: html/Elements/ShowLock:35
+#. ($TicketLabel)
 msgid "You have locked %1"
 msgstr "Vous avez verrouillé %1"
 
-#. ($duration)
 #: lib/RT/Extension/TicketLocking.pm:356
+#. ($duration)
 msgid "You have unlocked this ticket. It was locked for %1 seconds."
 msgstr "Vous avez déverrouillé ce ticket. Il était verrouillé depuis %1 secondes."
 

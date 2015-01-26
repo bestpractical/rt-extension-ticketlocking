@@ -1,5 +1,8 @@
-#. ($TicketLabel, $u_str, $ago)
+msgid ""
+msgstr ""
+
 #: html/Elements/ShowLock:47
+#. ($TicketLabel, $u_str, $ago)
 msgid "%1 has been locked by %2 for %3"
 msgstr ""
 
@@ -31,8 +34,8 @@ msgstr ""
 msgid "This ticket was not locked."
 msgstr ""
 
-#. ($Id)
 #: html/Elements/ShowLock:26
+#. ($Id)
 msgid "Ticket #%1"
 msgstr ""
 
@@ -56,8 +59,8 @@ msgstr ""
 msgid "You cannot unlock a ticket locked by another user."
 msgstr ""
 
-#. ($TicketLabel, $ago)
 #: html/Elements/ShowLock:31
+#. ($TicketLabel, $ago)
 msgid "You had %1 locked for %2. It is now unlocked"
 msgstr ""
 
@@ -65,18 +68,18 @@ msgstr ""
 msgid "You have broken the lock on this ticket"
 msgstr ""
 
-#. ($TicketLabel, $ago)
 #: html/Elements/ShowLock:37
+#. ($TicketLabel, $ago)
 msgid "You have had %1 locked for %2"
 msgstr ""
 
-#. ($TicketLabel)
 #: html/Elements/ShowLock:35
+#. ($TicketLabel)
 msgid "You have locked %1"
 msgstr ""
 
-#. ($duration)
 #: lib/RT/Extension/TicketLocking.pm:356
+#. ($duration)
 msgid "You have unlocked this ticket. It was locked for %1 seconds."
 msgstr ""
 
