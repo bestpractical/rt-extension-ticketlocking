@@ -1,3 +1,7 @@
+1.05 2015-02-26
+ - Packaging updates
+ - Localization, thanks to Emmanuel Lacour
+
 1.00 2015-01-19
  - Fix escaping in "locked by..."
  - Bump dependency to 4.0 that contains l_unsafe
