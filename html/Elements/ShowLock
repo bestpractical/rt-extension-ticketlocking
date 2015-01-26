@@ -23,7 +23,7 @@
 %# 
 %# END LICENSE BLOCK
 
-% my $TicketLabel = $Id ? "Ticket #$Id" : 'this ticket';
+% my $TicketLabel = $Id ? loc("Ticket #[_1]", $Id) : loc('this ticket');
 
 % if ($Duration ||($u->id && $u->id == $session{'CurrentUser'}->id)) {
 <div class="locked-by-you">
@@ -40,7 +40,7 @@
 </div>
 % } elsif ($u->id) {
 %    my $u_str = $m->scomp('/Elements/ShowUser', User => $u);
-%    $TicketLabel = 'This ticket' if $TicketLabel eq 'this ticket';
+%    $TicketLabel = loc('This ticket') if $TicketLabel eq loc('this ticket');
 %    $TicketLabel = $m->interp->apply_escapes($TicketLabel, 'h');
 %    $ago         = $m->interp->apply_escapes($ago, 'h');
 <div class="locked">

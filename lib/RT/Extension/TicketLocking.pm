@@ -343,17 +343,17 @@ sub Unlock {
     my $type = shift || 'Auto';
 
     my $lock = $ticket->RT::Ticket::Locked();
-    return (undef, "This ticket was not locked.") unless $lock;
-    return (undef, "You cannot unlock a ticket locked by another user.")
+    return (undef, $ticket->CurrentUser->loc("This ticket was not locked.")) unless $lock;
+    return (undef, $ticket->CurrentUser->loc("You cannot unlock a ticket locked by another user."))
         unless $lock->Content->{User} == $ticket->CurrentUser->id;
 
     my $current_type = $lock->Content->{'Type'};
-    return (undef, "There is a lock with a higher priority on this ticket.")
+    return (undef, $ticket->CurrentUser->loc("There is a lock with a higher priority on this ticket."))
         if $ticket->LockPriority( $type ) < $ticket->LockPriority( $current_type );
 
     my $duration = time() - $lock->Content->{'Timestamp'};
     $ticket->DeleteAttribute('RT_Lock');
-    return ($duration, "You have unlocked this ticket. It was locked for $duration seconds.");
+    return ($duration, $ticket->CurrentUser->loc("You have unlocked this ticket. It was locked for [_1] seconds.", $duration));
 }
 
 

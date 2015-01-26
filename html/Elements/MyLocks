@@ -48,14 +48,14 @@
 
     <&|/Widgets/TitleBox, title => loc("Tickets locked by you") &>
 % if(@locks) {
-    <a href="index.html?UnlockAll=1">Unlock All</a>
+    <a href="index.html?UnlockAll=1"><&|/l&>Unlock All</&></a>
     <table border="0" cellspacing="0" cellpadding="1" width="100%" class="ticket-list">
 
 <%PERL>    
     my $expire_title;
-    $expire_title = {title => 'Expires in'} if $expiry;
+    $expire_title = {title => loc('Expires in')} if $expiry;
     $m->comp('/Elements/CollectionAsTable/Header', 
-        Format => [{title => '#'}, {title => 'Subject'}, {title => 'Time Locked'}, $expire_title, {title => 'NBSP'}],
+        Format => [{title => '#'}, {title => loc('Subject')}, {title => loc('Time Locked')}, $expire_title, {title => 'NBSP'}],
         maxitems => ($expiry ? 5 : 4)
     ); 
     
@@ -74,7 +74,7 @@
                        {output => ["<a href=\"${RT::WebPath}/Ticket/Display.html?id=$id\">$subject</a>"]},
                        {output => [$date->DurationAsString($duration)]},
                        {output => [$expiryTime]},
-                       {output => ["<a href=\"${RT::WebPath}/Ticket/Display.html?id=$id&Lock=remove\">Unlock</a>"]}],
+                       {output => ["<a href=\"${RT::WebPath}/Ticket/Display.html?id=$id&Lock=remove\">".loc('Unlock')."</a>"]}],
             maxitems => ($expiry ? 5 : 4),
             i => $i        
         );
