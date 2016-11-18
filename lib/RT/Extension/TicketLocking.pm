@@ -52,11 +52,15 @@ use warnings;
 
 package RT::Extension::TicketLocking;
 
-our $VERSION = '1.05';
+our $VERSION = '1.06';
 
 =head1 NAME
 
 RT::Extension::TicketLocking - Enables users to place advisory locks on tickets
+
+=head1 RT VERSION
+
+Works with RT 4.0, 4.2 and 4.4.
 
 =head1 DESCRIPTION
 
