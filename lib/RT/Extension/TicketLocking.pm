@@ -345,19 +345,55 @@ sub Lock {
 sub Unlock {
     my $ticket = shift;
     my $type = shift || 'Auto';
+    my $is_current_ticket = shift // 1;
 
     my $lock = $ticket->RT::Ticket::Locked();
-    return (undef, $ticket->CurrentUser->loc("This ticket was not locked.")) unless $lock;
-    return (undef, $ticket->CurrentUser->loc("You cannot unlock a ticket locked by another user."))
+    unless ( $lock ) {
+        if ($is_current_ticket) {
+            return ( undef, $ticket->CurrentUser->loc("This ticket was not locked.") );
+        }
+        else {
+            return ( undef, $ticket->CurrentUser->loc("Ticket #[_1] was not locked.", $ticket->Id) );
+        }
+    }
+
+    return ( undef, $ticket->CurrentUser->loc("You cannot unlock a ticket locked by another user.") )
+        unless $lock->Content->{User} == $ticket->CurrentUser->id;
+
+    return ( undef, $ticket->CurrentUser->loc("You cannot unlock a ticket locked by another user.") )
         unless $lock->Content->{User} == $ticket->CurrentUser->id;
 
     my $current_type = $lock->Content->{'Type'};
-    return (undef, $ticket->CurrentUser->loc("There is a lock with a higher priority on this ticket."))
-        if $ticket->LockPriority( $type ) < $ticket->LockPriority( $current_type );
+    if ( $ticket->LockPriority($type) < $ticket->LockPriority($current_type) ) {
+        if ($is_current_ticket) {
+            return ( undef, $ticket->CurrentUser->loc("There is a lock with a higher priority on this ticket.") )
+        }
+        else {
+            return ( undef,
+                $ticket->CurrentUser->loc( "There is a lock with a higher priority on ticket #[_1].", $ticket->Id )
+            );
+        }
+    }
 
     my $duration = time() - $lock->Content->{'Timestamp'};
     $ticket->DeleteAttribute('RT_Lock');
-    return ($duration, $ticket->CurrentUser->loc("You have unlocked this ticket. It was locked for [_1] seconds.", $duration));
+    if ($is_current_ticket) {
+        return (
+            $duration,
+            $ticket->CurrentUser->loc(
+                "You have unlocked this ticket. It was locked for [_1] seconds.", $duration
+            )
+        );
+    }
+    else {
+        return (
+            $duration,
+            $ticket->CurrentUser->loc(
+                "You have unlocked ticket #[_1]. It was locked for [_2] seconds.",
+                $ticket->Id, $duration
+            )
+        );
+    }
 }
 
 
