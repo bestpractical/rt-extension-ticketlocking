@@ -2,7 +2,7 @@
 #
 # COPYRIGHT:
 #
-# This software is Copyright (c) 2007-2015 Best Practical Solutions, LLC
+# This software is Copyright (c) 2007-2025 Best Practical Solutions, LLC
 #                                          <sales@bestpractical.com>
 #
 # (Except where explicitly superseded by other copyright notices)
@@ -52,7 +52,7 @@ use warnings;
 
 package RT::Extension::TicketLocking;
 
-our $VERSION = '1.09';
+our $VERSION = '1.10';
 
 =head1 NAME
 
@@ -60,7 +60,7 @@ RT::Extension::TicketLocking - Enables users to place advisory locks on tickets
 
 =head1 RT VERSION
 
-Works with RT 4 and 5.0.
+Works with RT 5 and 6.0.
 
 =head1 DESCRIPTION
 
@@ -174,21 +174,13 @@ will not be available.
 
 May need root permissions
 
-=item Edit your F</opt/rt5/etc/RT_SiteConfig.pm>
-
-If you are using RT 4.2 or greater, add this line:
+=item Edit your F</opt/rt6/etc/RT_SiteConfig.pm>
 
     Plugin('RT::Extension::TicketLocking');
 
-For RT 4.0, add this line:
-
-    Set(@Plugins, qw(RT::Extension::TicketLocking));
-
-or add C<RT::Extension::TicketLocking> to your existing C<@Plugins> line.
-
 =item Clear your mason cache
 
-    rm -rf /opt/rt5/var/mason_data/obj
+    rm -rf /opt/rt6/var/mason_data/obj
 
 =item Restart your webserver
 
@@ -257,7 +249,7 @@ or via the web at
 
 =head1 COPYRIGHT
 
-This extension is Copyright (C) 2007-2014 Best Practical Solutions, LLC.
+This extension is Copyright (C) 2007-2025 Best Practical Solutions, LLC.
 
 This is free software, licensed under:
 
